@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Загрузка...</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+html { scroll-behavior: smooth; }
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+    --bg:#f4f4f5; --bg-soft:#ffffff; --text:#18181b; --muted:#71717a;
+    --border:#e4e4e7; --border-dark:#d4d4d8;
+    --accent:#18181b; --accent-hover:#27272a;
+    --btn-red:#1e40af; 
+    --btn-red-hover:#1e3a8a;
+    --green:#15803d; --green-bg:#dcfce7;
+    --red:#b91c1c; --red-bg:#fee2e2;
+    --yellow:#a16207; --yellow-bg:#fef9c3;
+    --radius:16px;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.container{max-width:1280px;margin:0 auto;padding:0 20px}
+
+/* --- HEADER --- */
+header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0;gap:16px}
+.logo{font-size:1.3rem;font-weight:900;letter-spacing:-.04em;display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--text);text-decoration:none;user-select:none}
+.logo svg{width:32px;height:32px;fill:var(--text)}
+.nav-center{display:flex;gap:24px;align-items:center;color:var(--muted);font-size:.9rem;font-weight:500}
+.nav-center span{display:flex;align-items:center;gap:6px}
+.nav-center .dot-green{width:8px;height:8px;background:#22c55e;border-radius:50%}
+.nav-right{display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:12px;font-size:.95rem;font-weight:600;cursor:pointer;border:none;transition:.2s;font-family:inherit;text-decoration:none;white-space:nowrap}
+.btn-outline{background:#fff;border:1px solid var(--border-dark);color:var(--text)}
+.btn-outline:hover{background:var(--bg)}
+.btn-red{background:var(--btn-red);color:#fff}
+.btn-red:hover{background:var(--btn-red-hover)}
+
+/* --- HERO (БАННЕР) --- */
+.hero{padding:24px 0}
+.hero-box{background:linear-gradient(135deg, #18181b 0%, #27272a 100%);border-radius:24px;overflow:hidden;display:flex;align-items:center;position:relative;color:#fff;min-height:400px}
+.hero-bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.4; 
+}
+.hero-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(24,24,27,0.9) 0%, rgba(24,24,27,0.4) 100%);
+    z-index: 2;
+}
+.hero-content{padding:56px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:3;width:100%;max-width:800px}
+.hero-loc{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:#93c5fd;margin-bottom:24px}
+.hero h1{font-size:3.2rem;font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:24px}
+.hero h1 span{color:#60a5fa}
+.hero p{font-size:1.1rem;color:#a1a1aa;max-width:400px;margin-bottom:40px;line-height:1.6}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-actions .btn-red{background:#2563eb}
+.hero-actions .btn-red:hover{background:#1d4ed8}
+.hero-stats{display:flex;gap:32px;margin-top:40px;padding-top:32px;border-top:1px solid #3f3f46}
+.hero-stat b{font-size:1.6rem;font-weight:800;display:block;line-height:1}
+.hero-stat span{font-size:.85rem;color:#a1a1aa}
+
+/* --- CATALOG --- */
+.catalog{padding:64px 0}
+.catalog-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;gap:24px}
+.catalog-head h2{font-size:2.5rem;font-weight:900;letter-spacing:-.03em;line-height:1.1}
+.catalog-head p{color:var(--muted);max-width:400px;font-size:1rem;line-height:1.5;text-align:right}
+.section-tag{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--btn-red);margin-bottom:16px}
+.section-tag::before{content:'';width:24px;height:2px;background:var(--btn-red)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:.2s}
+.card:hover{box-shadow:0 10px 30px rgba(0,0,0,.05)}
+.card-img{position:relative;height:220px;background:#e4e4e7}
+.card-img img{width:100%;height:100%;object-fit:cover}
+.badge{position:absolute;top:16px;right:16px;padding:6px 12px;border-radius:20px;font-size:.75rem;font-weight:700;display:flex;align-items:center;gap:6px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.badge.free{color:var(--green);background:var(--green-bg)}
+.badge.busy{color:var(--muted);background:var(--bg)}
+.badge.pending{color:var(--yellow);background:var(--yellow-bg)}
+.badge svg{width:14px;height:14px}
+.card-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.card-cat{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.card h3{font-size:1.3rem;font-weight:800;margin-bottom:8px}
+.card .desc{font-size:.9rem;color:var(--muted);margin-bottom:20px;line-height:1.5;flex:1}
+.specs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.spec-tag{background:var(--bg);padding:4px 10px;border-radius:6px;font-size:.75rem;color:var(--muted);font-weight:500}
+.card-price{font-size:1.1rem;font-weight:700;margin-bottom:16px}
+.card-price small{font-size:.85rem;color:var(--muted);font-weight:500}
+.card-min-hours{font-size:.8rem;color:var(--btn-red);font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:4px}
+.btn-order{width:100%;padding:14px;border-radius:10px;font-size:.95rem;font-weight:700;transition:.2s;border:none;cursor:pointer;margin-top:auto}
+.btn-order.active{background:var(--btn-red);color:#fff}
+.btn-order.active:hover{background:var(--btn-red-hover)}
+.btn-order.disabled{background:var(--bg);color:var(--muted);cursor:not-allowed}
+
+/* --- FOOTER --- */
+footer{background:var(--accent);color:#fff;padding:60px 0 24px;margin-top:64px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr;gap:40px;margin-bottom:40px}
+.footer-logo{font-size:1.5rem;font-weight:900;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.footer-logo svg{width:36px;height:36px;fill:var(--btn-red)}
+.footer-desc{color:#a1a1aa;max-width:300px;font-size:.95rem;margin-bottom:24px}
+.footer-loc{display:flex;align-items:center;gap:8px;color:#a1a1aa;font-size:.9rem;margin-top:8px;}
+.footer-right{text-align:right;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end}
+.footer-tg{color:#a1a1aa;text-decoration:none;font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:8px;transition:.2s}
+.footer-tg:hover{color:#fff}
+.footer-bottom{border-top:1px solid #3f3f46;padding-top:24px;font-size:.8rem;color:#52525b;display:flex;justify-content:space-between;align-items:center}
+
+/* --- МОДАЛКИ --- */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.overlay.active{display:flex}
+.modal{background:var(--bg);border-radius:24px;max-width:1000px;width:100%;display:grid;grid-template-columns:1.2fr 1fr;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2);animation:pop .3s cubic-bezier(.16,1,.3,1);max-height:95vh;overflow-y:auto}
+@keyframes pop{from{opacity:0;transform:scale(.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-left{padding:40px;background:#fff}
+.modal-left h2{font-size:1.8rem;font-weight:900;margin-bottom:8px}
+.modal-left p{color:var(--muted);margin-bottom:32px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:.85rem;font-weight:600;margin-bottom:8px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:14px 16px;border:1px solid var(--border-dark);border-radius:12px;font-size:.95rem;font-family:inherit;background:var(--bg-soft);transition:.2s;color:var(--text)}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(24,24,27,.1)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+.modal-right{background:var(--accent);color:#fff;padding:40px;display:flex;flex-direction:column}
+.modal-right h3{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;color:#a1a1aa;margin-bottom:24px;display:flex;align-items:center;gap:8px}
+.modal-right h3 svg{width:20px;height:20px;fill:var(--btn-red)}
+.summary-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #3f3f46;font-size:.95rem}
+.summary-row span{color:#a1a1aa}
+.summary-row b{font-weight:600}
+.summary-total{display:flex;flex-direction:column;margin-top:24px;margin-bottom:24px;background:#27272a;padding:16px;border-radius:12px;border:1px solid #3f3f46}
+.summary-total .lbl{font-size:.85rem;color:#a1a1aa;margin-bottom:4px}
+.summary-total .range{font-size:1.8rem;font-weight:900;line-height:1.1;color:#fff;display:flex;align-items:baseline;gap:8px}
+.summary-total .range span{font-size:1.2rem;color:#a1a1aa;font-weight:500}
+.btn-submit{width:100%;padding:18px;background:var(--btn-red);color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:800;cursor:pointer;transition:.2s;margin-top:auto;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-submit:hover{background:var(--btn-red-hover)}
+.close-modal{position:absolute;top:20px;right:20px;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--muted)}
+
+/* --- ОКНО ПОДТВЕРЖДЕНИЯ (СТРУКТУРА ЗАЯВКИ) --- */
+.messenger-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:2000;align-items:center;justify-content:center;padding:20px}
+.messenger-overlay.active{display:flex}
+.messenger-box{background:#fff;border-radius:24px;width:100%;max-width:640px;box-shadow:0 24px 64px rgba(0,0,0,.2);overflow:hidden;display:flex;flex-direction:column;animation:pop .3s cubic-bezier(.16,1,.3,1)}
+.messenger-header{background:#fff;padding:20px 24px;display:flex;justify-content:space-between;align-items:center}
+.messenger-title{display:flex;align-items:center;gap:14px;font-weight:800;font-size:1.1rem;color:#000}
+.messenger-icon{width:40px;height:40px;background:#1e40af;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.messenger-subtitle{font-size:.8rem;color:var(--muted);font-weight:500;margin-top:2px}
+.messenger-body{background:#e6eff5;padding:24px;flex:1;overflow-y:auto;max-height:55vh}
+.message-bubble{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.95rem;color:#000;line-height:1.6;white-space:pre-wrap;border-bottom-right-radius:2px;position:relative}
+.message-time{text-align:right;font-size:.75rem;color:#999;margin-top:8px;display:flex;justify-content:flex-end;align-items:center;gap:4px}
+.messenger-footer{padding:20px 24px;background:#fff;display:flex;flex-direction:column;gap:12px}
+.messenger-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-msg-back{background:#fff;border:1px solid var(--border-dark);color:#000;padding:14px;border-radius:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-size:.95rem}
+.btn-msg-back:hover{background:#f4f4f5}
+.btn-msg-send{background:var(--btn-red);color:#fff;border:none;padding:14px;border-radius:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-size:.95rem}
+.btn-msg-send:hover{background:var(--btn-red-hover)}
+
+/* --- ADMIN VIEW --- */
+#adminView{display:none;padding:32px 0 80px;background:var(--bg);min-height:100vh}
+.admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+.admin-head h1{font-size:1.8rem;font-weight:900;letter-spacing:-.03em; cursor:pointer; user-select:none; display:inline-block;}
+.admin-head h1:active { opacity: 0.7; }
+.btn-back{background:#fff;border:1px solid var(--border);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;color:var(--text);transition:.2s;flex-shrink:0}
+.btn-back:hover{background:var(--bg);border-color:var(--border-dark)}
+
+/* Форма данных компании */
+.company-settings{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px;display:flex;flex-direction:column;gap:16px;}
+.company-settings h3{font-size:1.1rem;font-weight:800;margin-bottom:8px;}
+
+.phone-inputs { display: flex; flex-direction: column; gap: 12px; }
+.delivery-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+.banner-preview { width: 100%; max-height: 150px; object-fit: cover; border-radius: 8px; margin-top: 8px; display: none; }
+
+.equip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:24px}
+.equip-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:.2s}
+.equip-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.04)}
+.equip-head{display:flex;gap:16px;padding:20px;border-bottom:1px solid var(--border)}
+.equip-head img{width:90px;height:90px;border-radius:12px;object-fit:cover;cursor:pointer;border:1px solid var(--border);transition:opacity .2s}
+.equip-head img:hover{opacity:.8}
+.equip-head-info{flex:1}
+.equip-head .cat{font-size:.7rem;font-weight:800;color:var(--btn-red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.equip-head h3{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+.equip-body{padding:20px;flex:1;display:flex;flex-direction:column;gap:16px}
+.admin-label{display:block;font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px;letter-spacing:.03em}
+.admin-input{width:100%;padding:10px 12px;border:1px solid var(--border-dark);border-radius:8px;font-size:.9rem;font-family:inherit;background:#fff;transition:.2s}
+.admin-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(24,24,27,.1)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.status-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.status-btn{padding:10px 4px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:.8rem;font-weight:600;cursor:pointer;transition:.2s;color:var(--muted);font-family:inherit;text-align:center}
+.status-btn:hover{background:var(--bg)}
+.status-btn.active.free{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.status-btn.active.busy{border-color:var(--accent);background:var(--accent);color:#fff}
+.status-btn.active.pending{border-color:var(--yellow);background:var(--yellow-bg);color:var(--yellow)}
+
+.specs-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.spec-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:6px;font-size:.85rem;border:1px solid var(--border)}
+.spec-row b{color:var(--text);margin-right:8px}
+.spec-row span.del-spec{cursor:pointer;color:var(--red);font-weight:800;font-size:1.1rem;line-height:1;padding:0 4px}
+.spec-row span.del-spec:hover{color:#991b1b}
+
+.add-spec-form{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;margin-top:8px}
+.add-spec-form input{padding:8px 10px;border:1px solid var(--border-dark);border-radius:6px;font-size:.85rem;font-family:inherit}
+.add-spec-form button{padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;font-family:inherit}
+.add-spec-form button:hover{background:#000}
+
+.equip-footer{padding:16px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:#fafafa;gap:8px}
+.btn-del{background:var(--red-bg);color:var(--red);border:1px solid transparent;padding:8px 16px;border-radius:8px;font-weight:600;font-size:.85rem;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;width:100%;justify-content:center}
+.btn-del:hover{background:#fecaca}
+.btn-del.confirm{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-del.confirm:hover{background:#991b1b}
+
+/* --- Модалки --- */
+.add-modal{max-width:440px;padding:24px;background:#fff;border-radius:20px;display:flex;flex-direction:column;gap:12px;position:relative;max-height:90vh;overflow-y:auto}
+.add-modal h2{font-size:1.3rem;font-weight:900;margin-bottom:4px}
+.add-modal .form-group{margin-bottom:0}
+.add-modal .form-group label{font-size:.75rem;margin-bottom:4px;text-transform:uppercase;color:var(--muted)}
+.add-modal .form-group input, .add-modal .form-group select{padding:10px 12px;font-size:.9rem;border-radius:8px}
+
+.upload-area{border:2px dashed var(--border-dark);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:.2s;background:var(--bg-soft)}
+.upload-area:hover{border-color:var(--accent);background:var(--bg)}
+.upload-area input[type="file"]{display:none}
+.upload-icon{font-size:1.5rem;margin-bottom:4px}
+.upload-text{font-size:.8rem;color:var(--muted)}
+.upload-preview{width:100%;height:100px;object-fit:cover;border-radius:8px;margin-top:8px;display:none}
+
+.template-specs{display:flex;flex-direction:column;gap:8px;background:var(--bg);padding:12px;border-radius:12px;border:1px solid var(--border)}
+.template-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center;margin-bottom:6px}
+.template-row input{padding:8px 10px;border:1px solid var(--border-dark);border-radius:6px;font-size:.85rem;width:100%;font-family:inherit}
+
+/* --- АДАПТИВНОСТЬ --- */
+@media(max-width:1024px){
+    .hero-box{flex-direction:column;min-height:auto}
+    .hero-content{padding:40px}
+    .hero h1{font-size:2.5rem}
+    .modal{grid-template-columns:1fr;max-height:90vh}
+    .equip-grid{grid-template-columns:1fr}
+    .messenger-box{max-height:90vh}
+}
+@media(max-width:768px){
+    .nav-center{display:none}
+    .nav-right .btn-outline{display:none}
+    .catalog-head{flex-direction:column;align-items:flex-start}
+    .catalog-head p{text-align:left}
+    .grid{grid-template-columns:1fr}
+    .footer-grid{grid-template-columns:1fr}
+    .footer-right{text-align:left;align-items:flex-start}
+    .modal-left,.modal-right{padding:24px}
+    .hero-actions{flex-direction:column}
+    .hero-actions .btn{width:100%}
+    .form-row{grid-template-columns:1fr}
+    .summary-total .range{font-size:1.5rem}
+    .admin-head h1{font-size:1.5rem}
+    .messenger-buttons{grid-template-columns:1fr;}
+    .add-spec-form{grid-template-columns:1fr;}
+    .delivery-inputs{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= САЙТ ================= -->
+<div id="siteView">
+    <header>
+        <div class="container nav">
+            <!-- 5 кликов по логотипу открывают ТЕХНИКУ -->
+            <a href="#" class="logo" onclick="handleLogoClick(event)">
+                <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                <span class="company-name">Загрузка...</span>
+            </a>
+            <div class="nav-center">
+                <span class="company-address"></span>
+                <span><div class="dot-green"></div> <span class="company-hours"></span></span>
+                <span class="company-phone"></span>
+            </div>
+            <div class="nav-right">
+                <a href="#catalog" class="btn btn-outline">Рассчитать стоимость</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-box">
+                <img id="heroBgImg" class="hero-bg-img" src="" alt="" style="display:none;">
+                <div class="hero-content">
+                    <div class="hero-loc">Спецтехника в городе <span class="company-city"></span></div>
+                    <h1>Аренда спецтехники <span>точно в срок</span></h1>
+                    <p>Выберите технику, укажите адрес и получите предварительный расчёт аренды</p>
+                    <div class="hero-actions">
+                        <a href="#catalog" class="btn btn-red">Подобрать технику ↓</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat"><b>от 2 ч</b><span>подача на объект</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="catalog" id="catalog">
+        <div class="container">
+            <div class="catalog-head">
+                <div>
+                    <div class="section-tag">Наш парк</div>
+                    <h2>Выберите технику<br>под задачу</h2>
+                </div>
+                <p>Вся техника обслужена, укомплектована и подаётся на объект с опытным оператором.</p>
+            </div>
+            <div class="grid" id="grid"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                        <span class="company-name">Загрузка...</span>
+                    </div>
+                    <div class="footer-desc">Аренда строительной и специальной техники с подачей на объект.</div>
+                    <div class="footer-loc company-address"></div>
+                    <div class="company-phones-list" style="margin-top:8px"></div>
+                </div>
+                <div class="footer-right">
+                    <a href="#" class="footer-tg">Работаем по <span id="cityPrepositional"></span></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 <span class="company-name"></span>. Все права защищены.</span>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- ================= АДМИНКА ================= -->
+<div id="adminView">
+    <header>
+        <div class="container nav">
+            <div style="display:flex;align-items:center;gap:16px">
+                <button class="btn-back" onclick="closeAdmin()" title="Вернуться на сайт">←</button>
+                <a href="#" class="logo" style="cursor:default">
+                    <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    <span class="company-name">АДМИН</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- ЗАГОЛОВОК: 5 кликов по нему открывают ДАННЫЕ КОМПАНИИ -->
+        <div class="admin-head">
+            <div>
+                <h1 onclick="handleAdminTitleClick(event)">Панель управления</h1>
+                <p style="color:var(--muted);font-size:.9rem;margin-top:4px">Изменения сохраняются мгновенно</p>
+            </div>
+        </div>
+
+        <!-- ВКЛАДКА: ТЕХНИКА (ОТКРЫВАЕТСЯ ПО УМОЛЧАНИЮ) -->
+        <div id="viewTech">
+            <div class="admin-head" style="margin-bottom:16px">
+                <button class="btn btn-red" onclick="openAddModal()">+ Добавить технику</button>
+            </div>
+            
+            <!-- Настройки доставки -->
+            <div class="company-settings" style="margin-bottom:24px;">
+                <h3>Стоимость доставки (₽)</h3>
+                <div class="delivery-inputs">
+                    <div>
+                        <label class="admin-label">В городе</label>
+                        <input type="number" id="deliv_city" class="admin-input" oninput="updateDeliverySettings()">
+                    </div>
+                    <div>
+                        <label class="admin-label">До 30 км</label>
+                        <input type="number" id="deliv_out" class="admin-input" oninput="updateDeliverySettings()">
+                    </div>
+                    <div>
+                        <label class="admin-label">Более 30 км</label>
+                        <input type="number" id="deliv_far" class="admin-input" oninput="updateDeliverySettings()">
+                    </div>
+                    <div>
+                        <label class="admin-label">Самовывоз</label>
+                        <input type="number" id="deliv_pickup" class="admin-input" oninput="updateDeliverySettings()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="equip-grid" id="equipGrid"></div>
+        </div>
+
+        <!-- ВКЛАДКА: ДАННЫЕ КОМПАНИИ (СКРЫТА ПО УМОЛЧАНИЮ) -->
+        <div id="viewCompany" style="display:none;">
+            <div class="company-settings">
+                <h3>Реквизиты и контакты</h3>
+                <p style="color:var(--muted);font-size:.9rem;margin-bottom:16px;">Эти данные отображаются в шапке сайта, в подвале и на главном экране.</p>
+                
+                <div class="form-group">
+                    <label class="admin-label">Название компании</label>
+                    <input type="text" id="setName" class="admin-input" placeholder="Например: СтройМаш" oninput="saveCompanyField('name', this.value)">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="admin-label">Город</label>
+                        <input type="text" id="setCity" class="admin-input" placeholder="Например: Сургут" oninput="saveCompanyField('city', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label class="admin-label">График работы</label>
+                        <input type="text" id="setHours" class="admin-input" placeholder="Например: Пн-Вс: 08:00–19:00" oninput="saveCompanyField('workHours', this.value)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="admin-label">Полный адрес</label>
+                    <input type="text" id="setAddress" class="admin-input" placeholder="Например: Сургут, ул. Сосновая, 60/1" oninput="saveCompanyField('address', this.value)">
+                </div>
+
+                <div class="form-group">
+                    <label class="admin-label">Телефоны (до 3-х штук)</label>
+                    <div class="phone-inputs">
+                        <input type="tel" id="setPhone1" class="admin-input" placeholder="Телефон 1 (основной)" oninput="saveCompanyField('phone1', this.value)">
+                        <input type="tel" id="setPhone2" class="admin-input" placeholder="Телефон 2 (необязательно)" oninput="saveCompanyField('phone2', this.value)">
+                        <input type="tel" id="setPhone3" class="admin-input" placeholder="Телефон 3 (необязательно)" oninput="saveCompanyField('phone3', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- БЛОК: ФОТО БАННЕРА -->
+            <div class="company-settings">
+                <h3>Главное фото (баннер)</h3>
+                <p style="color:var(--muted);font-size:.9rem;margin-bottom:16px;">Это фото будет на фоне главного баннера. Если не загружать — будет просто тёмный фон.</p>
+                
+                <div class="form-group">
+                    <label class="admin-label">Загрузить с устройства</label>
+                    <div class="upload-area" onclick="document.getElementById('heroFile').click()">
+                        <div class="upload-icon">📸</div>
+                        <div class="upload-text">Выбрать фото из галереи</div>
+                        <input type="file" id="heroFile" accept="image/*" onchange="handleHeroPhoto(event)">
+                        <img id="heroPreview" class="banner-preview" src="" alt="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="admin-label">Или вставьте ссылку (URL)</label>
+                    <input type="text" id="setHeroUrl" class="admin-input" placeholder="https://..." oninput="saveCompanyField('heroImage', this.value)">
+                </div>
+                
+                <button class="btn btn-outline" style="margin-top:8px;" onclick="removeHeroPhoto()">Удалить фото (очистить)</button>
+            </div>
+            
+            <!-- Кнопка возврата к технике (чтобы не застрять) -->
+            <button class="btn btn-red" style="width:100%; margin-top:16px;" onclick="switchAdminView('tech')">← Вернуться к технике</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= МОДАЛКА ОФОРМЛЕНИЯ ЗАКАЗА (ФОРМА) ================= -->
+<div class="overlay" id="orderOverlay">
+    <div class="modal" style="position:relative">
+        <button class="close-modal" onclick="closeModal()">✕</button>
+        <div class="modal-left">
+            <h2>Расчёт аренды</h2>
+            <p>Заполните параметры объекта — сумма пересчитается автоматически.</p>
+            
+            <div class="form-group">
+                <label>Выбранная техника</label>
+                <input type="text" id="calcEquipName" readonly style="background:#f4f4f5;font-weight:600">
+            </div>
+
+            <div class="form-group">
+                <label>Адрес объекта</label>
+                <input type="text" id="calcAddress" placeholder="Город, улица, дом">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Дата начала</label>
+                    <input type="date" id="calcDate">
+                </div>
+                <div class="form-group">
+                    <label>Время подачи</label>
+                    <input type="time" id="calcTime">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Кол-во часов</label>
+                    <input type="number" id="calcHours" min="1" value="4" oninput="updateCalc()" onblur="fixMinHours()">
+                </div>
+                <div class="form-group">
+                    <label>Зона доставки</label>
+                    <select id="calcDelivery" onchange="updateCalc()">
+                        <!-- Опции заполняются через JS -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Комментарий</label>
+                <textarea id="calcComment" rows="2" placeholder="Например: Нужно подготовить площадку под фундамент"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Ваше имя</label>
+                    <input type="text" id="calcName" placeholder="Иван">
+                </div>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="tel" id="calcPhone" placeholder="+7 (___) ___-__-__">
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-right">
+            <h3><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg> Расчёт заказа</h3>
+            
+            <div class="summary-row"><span>Техника</span><b id="sumEquip">-</b></div>
+            <div class="summary-row"><span>Продолжительность</span><b id="sumHours">4 часа</b></div>
+            <div class="summary-row"><span>Стоимость аренды</span><b id="sumRent">0 ₽</b></div>
+            <div class="summary-row"><span>Доставка</span><b id="sumDelivery">0 ₽</b></div>
+            
+            <div class="summary-total">
+                <div class="lbl">Примерная стоимость</div>
+                <div class="range" id="sumTotal">от 0 до 0 ₽</div>
+            </div>
+
+            <button class="btn-submit" onclick="showPreview()">Отправить заявку →</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================= ОКНО ПРЕДПРОСМОТРА (СТРУКТУРА ЗАЯВКИ) ================= -->
+<div class="messenger-overlay" id="previewOverlay">
+    <div class="messenger-box">
+        <div class="messenger-header">
+            <div class="messenger-title">
+                <div class="messenger-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                </div>
+                <div>
+                    <div style="line-height:1.2">Структура заявки</div>
+                    <div class="messenger-subtitle">Проверьте данные перед отправкой</div>
+                </div>
+            </div>
+            <button class="close-modal" style="position:static;font-size:1.2rem;" onclick="closePreview()">✕</button>
+        </div>
+        <div class="messenger-body">
+            <div class="message-bubble" id="previewText">
+                <!-- Сюда вставляется текст -->
+            </div>
+            <div class="message-time">сейчас <svg width="14" height="14" viewBox="0 0 24 24" fill="#999"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+        </div>
+        <div class="messenger-footer">
+            <div class="messenger-buttons">
+                <button class="btn-msg-back" onclick="closePreview()">
+                    ← Назад
+                </button>
+                <button class="btn-msg-send" onclick="sendOrder()">
+                    Отправить заявку
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= МОДАЛКА ДОБАВЛЕНИЯ ================= -->
+<div class="overlay" id="addOverlay">
+    <div class="add-modal">
+        <button class="close-modal" onclick="closeAddModal()">✕</button>
+        <h2>Новая техника</h2>
+        
+        <div class="form-group">
+            <label>Название</label>
+            <input type="text" id="addName" class="admin-input" placeholder="Например, Самосвал Volvo">
+        </div>
+        
+        <div class="form-group">
+            <label>Категория</label>
+            <select id="addCategory" class="admin-input" onchange="updateAddSpecsTemplate()">
+                <option value="Экскаваторы">Экскаваторы</option>
+                <option value="Погрузчики">Погрузчики</option>
+                <option value="Краны">Краны</option>
+                <option value="Самосвалы">Самосвалы</option>
+                <option value="Тралы">Тралы</option>
+                <option value="Тягачи">Тягачи (тегачи)</option>
+                <option value="Бульдозеры">Бульдозеры</option>
+                <option value="Катки">Катки</option>
+                <option value="Автовышки">Автовышки</option>
+                <option value="Манипуляторы">Манипуляторы</option>
+                <option value="Бетоносмесители">Бетоносмесители (миксеры)</option>
+                <option value="Бетононасосы">Бетононасосы</option>
+                <option value="Генераторы">Генераторы</option>
+                <option value="Компрессоры">Компрессоры</option>
+                <option value="Автокраны">Автокраны</option>
+                <option value="Самопогрузчики">Самопогрузчики</option>
+                <option value="Ямобуры">Ямобуры</option>
+                <option value="Газели">Газели</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Цена за час (₽)</label>
+                <input type="number" id="addPrice" class="admin-input" value="0">
+            </div>
+            <div class="form-group">
+                <label>Мин. часов (заказ)</label>
+                <input type="number" id="addMinHours" class="admin-input" placeholder="Необязательно">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Короткое описание</label>
+            <input type="text" id="addDesc" class="admin-input" placeholder="Кратко о технике">
+        </div>
+
+        <div class="form-group">
+            <label>Характеристики (Название / Значение)</label>
+            <div class="template-specs" id="addSpecsTemplate">
+                <!-- Шаблонные поля будут здесь -->
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Фото</label>
+            <div class="upload-area" onclick="document.getElementById('addFile').click()">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text">Из галереи</div>
+                <input type="file" id="addFile" accept="image/*" onchange="previewAddImage(event)">
+                <img id="addPreview" class="upload-preview" src="" alt="">
+            </div>
+            <input type="text" id="addImgUrl" class="admin-input" placeholder="Или вставьте ссылку (URL)" style="margin-top:8px">
+        </div>
+
+        <button class="btn btn-red" style="margin-top:8px;width:100%" onclick="addEquip()">Добавить на сайт</button>
+    </div>
+</div>
+
+<!-- ================= МОДАЛКА СМЕНЫ ФОТО ================= -->
+<div class="overlay" id="photoOverlay">
+    <div class="add-modal">
+        <button class="close-modal" onclick="closePhotoModal()">✕</button>
+        <h2>Смена фото</h2>
+        
+        <div class="form-group">
+            <label>Загрузить с устройства</label>
+            <div class="upload-area" onclick="document.getElementById('editFile').click()">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text">Выбрать фото из галереи</div>
+                <input type="file" id="editFile" accept="image/*" onchange="handleEditPhoto(event)">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Или вставьте ссылку (URL)</label>
+            <input type="text" id="editImgUrl" class="admin-input" placeholder="https://...">
+        </div>
+
+        <button class="btn btn-red" style="margin-top:8px;width:100%" onclick="saveEditPhoto()">Сохранить фото</button>
+    </div>
+</div>
+
+<script>
+// =====================================================================
+// НАЧАЛЬНЫЕ ДАННЫЕ (МОЖНО МЕНЯТЬ В АДМИНКЕ)
+// =====================================================================
+const DEFAULT_COMPANY = {
+    name: 'АРЕНДА СПЕЦТЕХНИКИ',
+    city: 'Сургут',
+    address: 'Сургут, ул. Сосновая, 60/1',
+    phone1: '+7 (922) 254-56-50',
+    phone2: '',
+    phone3: '',
+    workHours: 'Пн-Вс: 08:00–19:00',
+    heroImage: '' 
+};
+
+const DEFAULT_EQUIPMENT = [
+    {id:1, name:'Автокран (5–60 т)', category:'Автокраны', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда автокранов различной грузоподъемности', specs:[], image:'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&q=80'},
+    {id:2, name:'Автовышка (14–30 м)', category:'Автовышки', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда автовышек для работ на высоте', specs:[], image:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80'},
+    {id:3, name:'Экскаватор', category:'Экскаваторы', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда экскаваторов для земляных работ', specs:[], image:'https://images.unsplash.com/photo-1621922688756-2d40e2c0a7f4?w=600&q=80'},
+    {id:4, name:'Фронтальный погрузчик', category:'Погрузчики', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда фронтальных погрузчиков', specs:[], image:'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=600&q=80'},
+    {id:5, name:'Самопогрузчик', category:'Самопогрузчики', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда самопогрузчиков', specs:[], image:'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&q=80'},
+    {id:6, name:'Ямобур', category:'Ямобуры', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда ямобуров', specs:[], image:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80'},
+    {id:7, name:'Бетононасос', category:'Бетононасосы', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда бетононасосов', specs:[], image:'https://images.unsplash.com/photo-1579844497537-5e8b1e1e8c1a?w=600&q=80'},
+    {id:8, name:'Бульдозер', category:'Бульдозеры', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда бульдозеров', specs:[], image:'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=600&q=80'},
+    {id:9, name:'Тягач', category:'Тягачи', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда тягачей', specs:[], image:'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&q=80'},
+    {id:10, name:'Самосвал', category:'Самосвалы', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда самосвалов', specs:[], image:'https://images.unsplash.com/photo-1579844497537-5e8b1e1e8c1a?w=600&q=80'},
+    {id:11, name:'Миксер (бетоносмеситель)', category:'Бетоносмесители', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда миксеров', specs:[], image:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80'},
+    {id:12, name:'Газель (3, 5, 10 т)', category:'Газели', price_per_hour:0, min_hours:null, status:'free', desc:'Аренда газелей', specs:[], image:'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=600&q=80'}
+];
+
+const DEFAULT_DELIVERY = { city: 5000, out: 10000, far: 14000, pickup: 0 };
+
+const SPECS_TEMPLATES = {
+    'Экскаваторы': [ { label: 'Глубина копания', val: '' }, { label: 'Объём ковша', val: '' }, { label: 'Вес', val: '' } ],
+    'Погрузчики': [ { label: 'Грузоподъёмность', val: '' }, { label: 'Объём ковша', val: '' }, { label: 'Мощность', val: '' } ],
+    'Краны': [ { label: 'Грузоподъёмность', val: '' }, { label: 'Вылет стрелы', val: '' }, { label: 'Высота подъёма', val: '' } ],
+    'Самосвалы': [ { label: 'Грузоподъёмность', val: '' }, { label: 'Объём кузова', val: '' }, { label: 'Колёсная формула', val: '' } ],
+    'Тралы': [ { label: 'Грузоподъёмность', val: '' }, { label: 'Длина платформы', val: '' }, { label: 'Осевая нагрузка', val: '' } ],
+    'Тягачи': [ { label: 'Мощность двигателя', val: '' }, { label: 'Тип седла', val: '' }, { label: 'Колёсная формула', val: '' } ],
+    'Бульдозеры': [ { label: 'Мощность', val: '' }, { label: 'Отвал', val: '' }, { label: 'Вес', val: '' } ],
+    'Катки': [ { label: 'Вес', val: '' }, { label: 'Ширина вальца', val: '' }, { label: 'Тип (гладкий/пневмо)', val: '' } ],
+    'Автовышки': [ { label: 'Высота подъёма', val: '' }, { label: 'Грузоподъёмность люльки', val: '' }, { label: 'Длина стрелы', val: '' } ],
+    'Манипуляторы': [ { label: 'Грузоподъёмность', val: '' }, { label: 'Вылет стрелы', val: '' }, { label: 'Длина кузова', val: '' } ],
+    'Бетоносмесители': [ { label: 'Объём барабана', val: '' }, { label: 'Колёсная формула', val: '' }, { label: 'Грузоподъёмность', val: '' } ],
+    'Бетононасосы': [ { label: 'Производительность', val: '' }, { label: 'Высота подачи', val: '' }, { label: 'Длина стрелы', val: '' } ],
+    'Генераторы': [ { label: 'Мощность (кВт)', val: '' }, { label: 'Тип топлива', val: '' }, { label: 'Расход', val: '' } ],
+    'Компрессоры': [ { label: 'Производительность', val: '' }, { label: 'Давление', val: '' }, { label: 'Тип', val: '' } ],
+    'Автокраны': [ { label: 'Грузоподъёмность', val: '' }, { label: 'Вылет стрелы', val: '' }, { label: 'Высота подъёма', val: '' } ],
+    'Самопогрузчики': [ { label: 'Грузоподъёмность', val: '' }, { label: 'Вылет стрелы', val: '' }, { label: 'Длина кузова', val: '' } ],
+    'Ямобуры': [ { label: 'Глубина бурения', val: '' }, { label: 'Диаметр бура', val: '' }, { label: 'Мощность', val: '' } ],
+    'Газели': [ { label: 'Грузоподъёмность', val: '' }, { label: 'Длина кузова', val: '' }, { label: 'Тип', val: '' } ]
+};
+
+const STORAGE_KEY = 'stroymash_surgut_v14'; 
+function loadData(){
+    try { 
+        const raw = localStorage.getItem(STORAGE_KEY); 
+        if(raw) {
+            let parsed = JSON.parse(raw);
+            if (!parsed.delivery) parsed.delivery = { ...DEFAULT_DELIVERY };
+            if (!parsed.company) parsed.company = { ...DEFAULT_COMPANY };
+            if (typeof parsed.company.heroImage === 'undefined') parsed.company.heroImage = '';
+            return parsed;
+        }
+    } catch(e){}
+    return { 
+        equipment: JSON.parse(JSON.stringify(DEFAULT_EQUIPMENT)), 
+        orders: [], 
+        delivery: { ...DEFAULT_DELIVERY },
+        company: { ...DEFAULT_COMPANY }
+    };
+}
+let state = loadData();
+let curEquip = null;
+let deleteConfirmId = null;
+let editingPhotoId = null;
+let newEditPhotoBase64 = null;
+let newAddPhotoBase64 = null;
+let currentOrderData = null;
+
+let clickCountLogo = 0;
+let clickTimerLogo = null;
+let clickCountTitle = 0;
+let clickTimerTitle = null;
+
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+// --- Скрытый вход на ТЕХНИКУ (5 кликов по логотипу) ---
+function handleLogoClick(e) {
+    e.preventDefault();
+    clickCountLogo++;
+    if (clickCountLogo === 1) {
+        clickTimerLogo = setTimeout(() => { clickCountLogo = 0; }, 1500);
+    }
+    if (clickCountLogo >= 5) {
+        clearTimeout(clickTimerLogo);
+        clickCountLogo = 0;
+        openAdmin('tech'); // Открываем ТЕХНИКУ
+    }
+}
+
+// --- Скрытый вход на ДАННЫЕ КОМПАНИИ (5 кликов по заголовку в админке) ---
+function handleAdminTitleClick(e) {
+    e.preventDefault();
+    clickCountTitle++;
+    if (clickCountTitle === 1) {
+        clickTimerTitle = setTimeout(() => { clickCountTitle = 0; }, 1500);
+    }
+    if (clickCountTitle >= 5) {
+        clearTimeout(clickTimerTitle);
+        clickCountTitle = 0;
+        switchAdminView('company'); // Открываем ДАННЫЕ КОМПАНИИ
+    }
+}
+
+// ================= ПРИМЕНЕНИЕ ДАННЫХ КОМПАНИИ =================
+function applyCompanyInfo() {
+    const c = state.company;
+    document.title = c.name + ' — ' + c.city;
+
+    const phones = [c.phone1, c.phone2, c.phone3].filter(p => p && p.trim() !== '');
+    const phoneStr = phones.join(', ');
+    const phoneListHtml = phones.map(p => `<div class="footer-loc">${p}</div>`).join('');
+
+    // Правильное склонение для "Работаем по ..."
+    const city = c.city.trim();
+    let cityPrep = city;
+    if (city.endsWith('а') || city.endsWith('я')) {
+        cityPrep = city.slice(0, -1) + 'е'; 
+    } else if (city.endsWith('ь')) {
+        cityPrep = city.slice(0, -1) + 'и'; 
+    } else {
+        cityPrep = city + 'у'; 
+    }
+    
+    if (city === 'Москва') cityPrep = 'Москве';
+    if (city === 'Санкт-Петербург') cityPrep = 'Санкт-Петербургу';
+    if (city === 'Казань') cityPrep = 'Казани';
+    if (city === 'Екатеринбург') cityPrep = 'Екатеринбургу';
+    if (city === 'Новосибирск') cityPrep = 'Новосибирску';
+    if (city === 'Омск') cityPrep = 'Омску';
+    if (city === 'Сургут') cityPrep = 'Сургуту';
+
+    document.querySelectorAll('.company-name').forEach(el => el.textContent = c.name);
+    document.querySelectorAll('.company-address').forEach(el => el.textContent = c.address);
+    document.querySelectorAll('.company-hours').forEach(el => el.textContent = c.workHours);
+    document.querySelectorAll('.company-city').forEach(el => el.textContent = c.city);
+    
+    document.querySelectorAll('.company-phone').forEach(el => el.textContent = phoneStr);
+    document.querySelectorAll('.company-phones-list').forEach(el => el.innerHTML = phoneListHtml);
+    
+    const cityPrepEl = document.getElementById('cityPrepositional');
+    if (cityPrepEl) cityPrepEl.textContent = cityPrep;
+
+    // Применяем картинку баннера
+    const heroImg = document.getElementById('heroBgImg');
+    if (c.heroImage) {
+        heroImg.src = c.heroImage;
+        heroImg.style.display = 'block';
+    } else {
+        heroImg.src = '';
+        heroImg.style.display = 'none';
+    }
+}
+
+// ================= ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ =================
+function openAdmin(defaultView) {
+    document.getElementById('siteView').style.display = 'none';
+    document.getElementById('adminView').style.display = 'block';
+    window.scrollTo(0,0);
+    
+    // Открываем нужную вкладку
+    switchAdminView(defaultView || 'tech');
+    
+    renderAdmin();
+    fillCompanyForm();
+}
+function closeAdmin(){
+    document.getElementById('adminView').style.display = 'none';
+    document.getElementById('siteView').style.display = 'block';
+    window.scrollTo(0,0);
+    applyCompanyInfo();
+    renderSite();
+}
+
+// Переключение между страницами админки
+function switchAdminView(view) {
+    if (view === 'company') {
+        document.getElementById('viewCompany').style.display = 'block';
+        document.getElementById('viewTech').style.display = 'none';
+    } else {
+        document.getElementById('viewCompany').style.display = 'none';
+        document.getElementById('viewTech').style.display = 'block';
+    }
+}
+
+// ================= САЙТ =================
+function renderSite(){
+    document.getElementById('grid').innerHTML = state.equipment.map(e => {
+        let badgeClass = 'free', badgeText = 'Свободна', icon = '<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>';
+        if (e.status === 'busy') { badgeClass = 'busy'; badgeText = 'Занята'; icon = '<path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>'; }
+        if (e.status === 'pending') { badgeClass = 'pending'; badgeText = 'Требует подтверждения'; icon = '<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>'; }
+
+        const isBusy = e.status === 'busy';
+        const btnClass = isBusy ? 'disabled' : 'active';
+        const btnText = isBusy ? 'Сейчас занята' : 'Выбрать ✓';
+        const minH = e.min_hours;
+        
+        let priceDisplay = e.price_per_hour > 0 
+            ? `${e.price_per_hour.toLocaleString()} ₽ <small>/час</small>` 
+            : 'Цена по запросу';
+
+        let minHoursHtml = minH ? `<div class="card-min-hours">Мин. заказ: ${minH} ч.</div>` : '';
+
+        return `
+        <div class="card">
+            <div class="card-img">
+                <img src="${e.image}" alt="${e.name}">
+                <div class="badge ${badgeClass}">
+                    <svg viewBox="0 0 24 24" fill="currentColor">${icon}</svg>
+                    ${badgeText}
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-cat">${e.category}</div>
+                <h3>${e.name}</h3>
+                <div class="desc">${e.desc || 'Описание отсутствует'}</div>
+                <div class="specs">
+                    ${(e.specs||[]).slice(0,3).map(s => `<span class="spec-tag">${s.name}: ${s.val}</span>`).join('')}
+                </div>
+                <div class="card-price">${priceDisplay}</div>
+                ${minHoursHtml}
+                <button class="btn-order ${btnClass}" ${isBusy ? 'disabled' : `onclick="openModal(${e.id})"`}>${btnText}</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ================= МОДАЛКА ОФОРМЛЕНИЯ =================
+function openModal(id){
+    curEquip = state.equipment.find(x => x.id === id);
+    if(!curEquip) return;
+    
+    const minH = curEquip.min_hours;
+    
+    document.getElementById('calcEquipName').value = `${curEquip.name} ${curEquip.price_per_hour > 0 ? '· ' + curEquip.price_per_hour + ' ₽/ч' : ''}`;
+    
+    const hoursInput = document.getElementById('calcHours');
+    if (minH) {
+        hoursInput.min = minH;
+        hoursInput.value = minH;
+    } else {
+        hoursInput.min = 1;
+        hoursInput.value = 1;
+    }
+    
+    document.getElementById('calcAddress').value = '';
+    document.getElementById('calcName').value = '';
+    document.getElementById('calcPhone').value = '';
+    document.getElementById('calcComment').value = '';
+    
+    const del = state.delivery;
+    document.getElementById('calcDelivery').innerHTML = `
+        <option value="${del.city}">В пределах города — ${del.city.toLocaleString()} ₽</option>
+        <option value="${del.out}">За городом (до 30 км) — ${del.out.toLocaleString()} ₽</option>
+        <option value="${del.far}">Более 30 км — ${del.far.toLocaleString()} ₽</option>
+        <option value="${del.pickup}">Самовывоз — ${del.pickup.toLocaleString()} ₽</option>
+    `;
+    
+    document.getElementById('orderOverlay').classList.add('active');
+    updateCalc();
+}
+
+function closeModal(){ document.getElementById('orderOverlay').classList.remove('active'); }
+
+function fixMinHours() {
+    const input = document.getElementById('calcHours');
+    const minH = parseInt(input.min) || 1;
+    if (parseInt(input.value) < minH || !input.value) {
+        input.value = minH;
+        updateCalc();
+    }
+}
+
+function updateCalc(){
+    if(!curEquip) return;
+    const h = parseInt(document.getElementById('calcHours').value) || 0;
+    const del = parseInt(document.getElementById('calcDelivery').value) || 0;
+    
+    const rent = h * curEquip.price_per_hour;
+    const total = rent + del;
+    const minPrice = total;
+    const maxPrice = Math.round(total * 1.1); 
+
+    document.getElementById('sumEquip').textContent = curEquip.name;
+    document.getElementById('sumHours').textContent = h + ' часов';
+    document.getElementById('sumRent').textContent = rent > 0 ? rent.toLocaleString() + ' ₽' : 'По запросу';
+    document.getElementById('sumDelivery').textContent = del.toLocaleString() + ' ₽';
+    
+    if (curEquip.price_per_hour > 0) {
+        document.getElementById('sumTotal').innerHTML = `от ${minPrice.toLocaleString()} до ${maxPrice.toLocaleString()} <span>₽</span>`;
+    } else {
+        document.getElementById('sumTotal').innerHTML = `По запросу`;
+    }
+}
+
+// ================= ОКНО ПРЕДПРОСМОТРА =================
+function showPreview() {
+    fixMinHours();
+    
+    const name = document.getElementById('calcName').value;
+    const phone = document.getElementById('calcPhone').value;
+    const addr = document.getElementById('calcAddress').value;
+    
+    if(!name || !phone || !addr) { 
+        alert('Заполните имя, телефон и адрес'); 
+        return; 
+    }
+
+    const dateVal = document.getElementById('calcDate').value;
+    const timeVal = document.getElementById('calcTime').value;
+    const hoursVal = document.getElementById('calcHours').value;
+    const deliverySelect = document.getElementById('calcDelivery');
+    const deliveryText = deliverySelect.options[deliverySelect.selectedIndex].text;
+    const comment = document.getElementById('calcComment').value || 'Нет';
+    const totalText = document.getElementById('sumTotal').textContent.trim();
+
+    let formattedDate = dateVal ? new Date(dateVal).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Не указана';
+
+    const msg = `Здравствуйте! Хочу заказать спецтехнику.\n\n` +
+                `Техника: ${curEquip.name}\n` +
+                `Имя: ${name}\n` +
+                `Телефон: ${phone}\n` +
+                `Адрес: ${addr}\n` +
+                `Дата: ${formattedDate}\n` +
+                `Время: ${timeVal || 'Не указано'}\n` +
+                `Продолжительность: ${hoursVal} часов\n` +
+                `Доставка: ${deliveryText}\n` +
+                `Предварительная стоимость: ${totalText}\n` +
+                `Комментарий: ${comment}`;
+
+    document.getElementById('previewText').textContent = msg;
+    
+    currentOrderData = {
+        equipment: curEquip.name,
+        client_name: name,
+        client_phone: phone,
+        address: addr,
+        date: `${dateVal} ${timeVal}`,
+        total_range: totalText,
+        comment: comment
+    };
+
+    document.getElementById('orderOverlay').classList.remove('active');
+    document.getElementById('previewOverlay').classList.add('active');
+}
+
+function closePreview() {
+    document.getElementById('previewOverlay').classList.remove('active');
+    document.getElementById('orderOverlay').classList.add('active');
+}
+
+// ================= ОТПРАВКА ЗАКАЗА =================
+const BACKEND_URL = ''; // Вставьте сюда URL Cloudflare Worker
+async function sendOrder() {
+    const btn = document.querySelector('.btn-msg-send');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'Отправка...';
+    btn.disabled = true;
+
+    try {
+        if (BACKEND_URL) {
+            const response = await fetch(BACKEND_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentOrderData)
+            });
+            if (!response.ok) throw new Error('Ошибка сервера');
+            alert('Заявка успешно отправлена! Мы свяжемся с вами.');
+        } else {
+            console.log('Заявка (URL сервера не указан):', currentOrderData);
+            alert('Заявка успешно отправлена! (Демо-режим)');
+        }
+        
+        state.orders.push({ id: Date.now(), ...currentOrderData });
+        save();
+        
+        document.getElementById('previewOverlay').classList.remove('active');
+        closeModal();
+    } catch (error) {
+        console.error('Ошибка отправки:', error);
+        alert('Произошла ошибка при отправке. Попробуйте позвонить нам.');
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
+}
+
+document.getElementById('orderOverlay').addEventListener('click', e => { if(e.target.id === 'orderOverlay') closeModal(); });
+document.getElementById('previewOverlay').addEventListener('click', e => { if(e.target.id === 'previewOverlay') closePreview(); });
+
+
+// ================= АДМИНКА =================
+function fillCompanyForm() {
+    const c = state.company;
+    document.getElementById('setName').value = c.name;
+    document.getElementById('setCity').value = c.city;
+    document.getElementById('setHours').value = c.workHours;
+    document.getElementById('setAddress').value = c.address;
+    document.getElementById('setPhone1').value = c.phone1;
+    document.getElementById('setPhone2').value = c.phone2;
+    document.getElementById('setPhone3').value = c.phone3;
+    
+    // Баннер
+    document.getElementById('setHeroUrl').value = c.heroImage || '';
+    const preview = document.getElementById('heroPreview');
+    if (c.heroImage) {
+        preview.src = c.heroImage;
+        preview.style.display = 'block';
+    } else {
+        preview.src = '';
+        preview.style.display = 'none';
+    }
+}
+
+function saveCompanyField(field, val) {
+    state.company[field] = val;
+    save();
+    applyCompanyInfo();
+}
+
+function handleHeroPhoto(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const base64 = e.target.result;
+        state.company.heroImage = base64;
+        save();
+        applyCompanyInfo();
+        
+        const preview = document.getElementById('heroPreview');
+        preview.src = base64;
+        preview.style.display = 'block';
+        document.getElementById('setHeroUrl').value = '';
+    };
+    reader.readAsDataURL(file);
+}
+
+function removeHeroPhoto() {
+    state.company.heroImage = '';
+    save();
+    applyCompanyInfo();
+    document.getElementById('heroPreview').style.display = 'none';
+    document.getElementById('heroPreview').src = '';
+    document.getElementById('setHeroUrl').value = '';
+    document.getElementById('heroFile').value = '';
+}
+
+function renderAdmin(){
+    // Настройки доставки
+    document.getElementById('deliv_city').value = state.delivery.city;
+    document.getElementById('deliv_out').value = state.delivery.out;
+    document.getElementById('deliv_far').value = state.delivery.far;
+    document.getElementById('deliv_pickup').value = state.delivery.pickup;
+
+    // Карточки
+    document.getElementById('equipGrid').innerHTML = state.equipment.map(e => {
+        const isConfirming = (deleteConfirmId === e.id);
+        const delBtnClass = isConfirming ? 'btn-del confirm' : 'btn-del';
+        const delBtnText = isConfirming ? 'Нажмите еще раз' : 'Удалить';
+        const minH = e.min_hours || '';
+
+        let specsListHtml = '';
+        if (e.specs && e.specs.length > 0) {
+            specsListHtml = e.specs.map((s, i) => {
+                return `<div class="spec-row"><div><b>${s.name}:</b> ${s.val}</div> <span class="del-spec" onclick="delSpec(${e.id}, ${i})">✕</span></div>`;
+            }).join('');
+        }
+
+        return `
+        <div class="equip-card">
+            <div class="equip-head">
+                <img src="${e.image}" onclick="openPhotoModal(${e.id})" title="Нажмите, чтобы сменить фото">
+                <div class="equip-head-info">
+                    <div class="cat">${e.category}</div>
+                    <h3>${e.name}</h3>
+                    <input type="text" class="admin-input" value="${e.desc || ''}" placeholder="Описание" oninput="updateField(${e.id}, 'desc', this.value)" style="padding:6px 10px;font-size:.8rem">
+                </div>
+            </div>
+            <div class="equip-body">
+                <div class="form-row">
+                    <div>
+                        <label class="admin-label">Цена за час (₽)</label>
+                        <input type="number" class="admin-input" value="${e.price_per_hour}" oninput="updateField(${e.id}, 'price_per_hour', this.value)">
+                    </div>
+                    <div>
+                        <label class="admin-label">Мин. часов</label>
+                        <input type="number" class="admin-input" value="${minH}" placeholder="Нет" oninput="updateField(${e.id}, 'min_hours', this.value)">
+                    </div>
+                </div>
+                <div>
+                    <label class="admin-label">Статус техники</label>
+                    <div class="status-btns">
+                        <button class="status-btn free ${e.status==='free'?'active':''}" onclick="setStatus(${e.id}, 'free')">Свободна</button>
+                        <button class="status-btn busy ${e.status==='busy'?'active':''}" onclick="setStatus(${e.id}, 'busy')">Занята</button>
+                        <button class="status-btn pending ${e.status==='pending'?'active':''}" onclick="setStatus(${e.id}, 'pending')">Требует подтв.</button>
+                    </div>
+                </div>
+                <div>
+                    <label class="admin-label">Характеристики</label>
+                    <div class="specs-list">
+                        ${specsListHtml}
+                    </div>
+                    <div class="add-spec-form">
+                        <input type="text" id="specName_${e.id}" placeholder="Название (напр. Высота)">
+                        <input type="text" id="specVal_${e.id}" placeholder="Значение (напр. 20 м)">
+                        <button onclick="addSpec(${e.id})">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="equip-footer">
+                <button class="${delBtnClass}" onclick="tryDelete(${e.id})">${delBtnText}</button>
+            </div>
+        </div>
+        `;
+    }).join('');
+}
+
+function updateDeliverySettings() {
+    state.delivery.city = parseInt(document.getElementById('deliv_city').value) || 0;
+    state.delivery.out = parseInt(document.getElementById('deliv_out').value) || 0;
+    state.delivery.far = parseInt(document.getElementById('deliv_far').value) || 0;
+    state.delivery.pickup = parseInt(document.getElementById('deliv_pickup').value) || 0;
+    save();
+}
+
+function updateField(id, field, val){
+    const item = state.equipment.find(e => e.id === id);
+    if(item) { 
+        if(field === 'price_per_hour' || field === 'min_hours') {
+            if (val === '' || val === null) {
+                item[field] = field === 'min_hours' ? null : 0;
+            } else {
+                item[field] = parseInt(val);
+            }
+        } else {
+            item[field] = val;
+        }
+        save(); 
+    }
+}
+function setStatus(id, st){
+    const item = state.equipment.find(e => e.id === id);
+    if(item) { item.status = st; save(); renderAdmin(); }
+}
+function addSpec(id){
+    const nameInput = document.getElementById(`specName_${id}`);
+    const valInput = document.getElementById(`specVal_${id}`);
+    const specName = nameInput.value.trim();
+    const specVal = valInput.value.trim();
+    if(!specName || !specVal) { alert('Заполните и название, и значение'); return; }
+    const item = state.equipment.find(e => e.id === id);
+    if(item) { 
+        if(!item.specs) item.specs = []; 
+        item.specs.push({ name: specName, val: specVal }); 
+        save(); 
+        renderAdmin(); 
+    }
+}
+function delSpec(id, idx){
+    const item = state.equipment.find(e => e.id === id);
+    if(item) { item.specs.splice(idx, 1); save(); renderAdmin(); }
+}
+function tryDelete(id){
+    if(deleteConfirmId === id) {
+        state.equipment = state.equipment.filter(e => e.id !== id);
+        deleteConfirmId = null;
+        save(); renderAdmin();
+    } else {
+        deleteConfirmId = id;
+        renderAdmin();
+        setTimeout(() => {
+            if(deleteConfirmId === id) { deleteConfirmId = null; renderAdmin(); }
+        }, 3000);
+    }
+}
+
+// ================= ДОБАВЛЕНИЕ =================
+function updateAddSpecsTemplate(){
+    const cat = document.getElementById('addCategory').value;
+    const template = SPECS_TEMPLATES[cat] || [];
+    const container = document.getElementById('addSpecsTemplate');
+    container.innerHTML = template.map((t, i) => `
+        <div class="template-row">
+            <input type="text" class="add-spec-name" value="${t.label}" placeholder="Название">
+            <input type="text" class="add-spec-val" placeholder="Значение">
+        </div>
+    `).join('');
+}
+
+function openAddModal(){
+    document.getElementById('addName').value = '';
+    document.getElementById('addPrice').value = '0';
+    document.getElementById('addMinHours').value = '';
+    document.getElementById('addDesc').value = '';
+    document.getElementById('addImgUrl').value = '';
+    document.getElementById('addFile').value = '';
+    document.getElementById('addPreview').style.display = 'none';
+    document.getElementById('addCategory').value = 'Экскаваторы';
+    newAddPhotoBase64 = null;
+    updateAddSpecsTemplate();
+    document.getElementById('addOverlay').classList.add('active');
+}
+function closeAddModal(){ document.getElementById('addOverlay').classList.remove('active'); }
+function previewAddImage(event){
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        newAddPhotoBase64 = e.target.result;
+        const preview = document.getElementById('addPreview');
+        preview.src = newAddPhotoBase64;
+        preview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+}
+function addEquip(){
+    const name = document.getElementById('addName').value;
+    if(!name) { alert('Введите название'); return; }
+    const cat = document.getElementById('addCategory').value;
+    const price = parseInt(document.getElementById('addPrice').value) || 0;
+    const minHVal = document.getElementById('addMinHours').value;
+    const minH = minHVal ? parseInt(minHVal) : null;
+    const desc = document.getElementById('addDesc').value || 'Описание отсутствует';
+    
+    let img = document.getElementById('addImgUrl').value;
+    if (newAddPhotoBase64) img = newAddPhotoBase64;
+    if (!img) img = 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80';
+
+    const specs = [];
+    const nameInputs = document.querySelectorAll('.add-spec-name');
+    const valInputs = document.querySelectorAll('.add-spec-val');
+    
+    for(let i=0; i<nameInputs.length; i++) {
+        const sName = nameInputs[i].value.trim();
+        const sVal = valInputs[i].value.trim();
+        if(sName && sVal) {
+            specs.push({ name: sName, val: sVal });
+        }
+    }
+
+    const newItem = {
+        id: Date.now(),
+        name: name,
+        category: cat,
+        price_per_hour: price,
+        min_hours: minH,
+        status: 'free',
+        desc: desc,
+        specs: specs,
+        image: img
+    };
+    state.equipment.push(newItem);
+    save(); 
+    newAddPhotoBase64 = null;
+    closeAddModal();
+    renderAdmin();
+}
+document.getElementById('addOverlay').addEventListener('click', e => { if(e.target.id === 'addOverlay') closeAddModal(); });
+
+// ================= СМЕНА ФОТО =================
+function openPhotoModal(id){
+    editingPhotoId = id;
+    newEditPhotoBase64 = null;
+    document.getElementById('editFile').value = '';
+    const item = state.equipment.find(e => e.id === id);
+    document.getElementById('editImgUrl').value = item.image.startsWith('data:') ? '' : item.image;
+    document.getElementById('photoOverlay').classList.add('active');
+}
+function closePhotoModal(){ document.getElementById('photoOverlay').classList.remove('active'); }
+function handleEditPhoto(event){
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        newEditPhotoBase64 = e.target.result;
+        document.getElementById('editImgUrl').value = '';
+    };
+    reader.readAsDataURL(file);
+}
+function saveEditPhoto(){
+    if (!editingPhotoId) return;
+    const item = state.equipment.find(e => e.id === editingPhotoId);
+    if (!item) return;
+
+    let newImg = document.getElementById('editImgUrl').value;
+    if (newEditPhotoBase64) newImg = newEditPhotoBase64;
+    if(newImg) { item.image = newImg; save(); }
+    closePhotoModal();
+    renderAdmin();
+}
+document.getElementById('photoOverlay').addEventListener('click', e => { if(e.target.id === 'photoOverlay') closePhotoModal(); });
+
+// ================= СТАРТ =================
+applyCompanyInfo();
+renderSite();
+</script>
+</body>
+</html>
